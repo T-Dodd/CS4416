@@ -1,41 +1,50 @@
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.FileReader;
 import java.io.File;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.*;
-import java.util.*;
 import java.lang.*;
-import java.awt.*;
-import java.beans.*;
-import java.net.*;
-import java.nio.*;
 
 public class Main {
-    private static File FILE;
+    private static final String[] noArgs = {""};
 
     public static void main(String[] args){
         File cwd = new File("src/Main");
         System.out.println("Program file location: " + cwd.getAbsolutePath());
-        System.out.println("Enter the relative path of the file that you would like to parse, or press enter for default.");
+        System.out.println("Enter the full path of the file that you would like to parse, or press enter for default.");
 
+        String fileContents = readFile(readInput());
+    }
+
+    /*
+    * Reads input from the command line and returns a File object from the user input.
+    * If the value entered is an invalid file, an IOException will be thrown and an error
+    * message will be displayed to the user
+    * */
+    private static File readInput(){
         try{
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
             String userInput = bufferedReader.readLine();
-            try{
-                if(userInput.equals("")){
-                    FILE = new File("src/test.c");
-                }
-                else{
-                    FILE = new File(userInput);
-                }
+            if(userInput.equals("")){
+                return new File("src/test.c");
             }
-            catch(Exception e){
-                System.out.println(e.toString());
-                System.out.println("Invalid Input");
+            else{
+                return new File(userInput);
             }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println("Invalid Input. Please enter a valid file path");
+            main(noArgs);
+            return new File(".");
+        }
+    }
 
+    /*
+    * Reads the contents of a File object and returns a string.
+    * */
+    private static String readFile(File FILE){
+        try{
             FileReader reader = new FileReader(FILE);
             String fileContents = "";
             boolean reading = true;
@@ -47,13 +56,17 @@ public class Main {
                 fileContents += (char)nextChar;
             }while(reading);
             System.out.println("File contents have been read");
+
+            //DEBUGGING For Testing the file reader contents are correct
             System.out.print(fileContents);
             System.out.println();
+
+            return fileContents;
         }
         catch(Exception e){
-            System.out.println(e.toString());
-            e.printStackTrace();
+            System.out.println("Error reading file contents. Returning empty value");
+            return "";
         }
     }
-
 }
+
