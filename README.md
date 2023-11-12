@@ -3,7 +3,7 @@ Project for CS4416 Cybersecurity
 
 # Contributors
 * Tyler Dodd
-* Andrija
+* Andrija Sevaljevic
 * Russell Phillips
 
 # Instructions
