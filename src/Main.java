@@ -18,6 +18,10 @@ public class Main {
 
         String fileContents = readFile(inputFilePath());
 
+        Regex test = new Regex(fileContents);
+
+        test.find();
+
     }
 
     /*
