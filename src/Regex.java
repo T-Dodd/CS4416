@@ -1,11 +1,17 @@
 import java.io.*;
 import java.util.regex.*;
+import java.util.HashMap;
 import java.io.BufferedReader;
+
+
+
 public class Regex {
     private String code;
+    private HashMap dict;
 
-    public Regex(String codeInput) {
+    public Regex(String codeInput, HashMap dictInput) {
         code = codeInput;
+        dict = dictInput;
     }
 
     public void find() {
