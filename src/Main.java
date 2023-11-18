@@ -114,7 +114,7 @@ public class Main {
         }
     }
 
-    /*Currently placeholder function that will update the list of unsafe / deprecated functions
+    /* Currently, placeholder function that will update the list of unsafe / deprecated functions
     if a user on a unix based OS would like the most current version*/
     public static void parseManPages(){
         System.out.println("Man Pages Parsed");
