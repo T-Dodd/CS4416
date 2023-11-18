@@ -3,38 +3,42 @@ import java.util.regex.*;
 import java.util.HashMap;
 import java.io.BufferedReader;
 
-
-
 public class Regex {
     private String code;
-    private HashMap dict;
+    private HashMap<String,String> dict;
 
-    public Regex(String codeInput, HashMap dictInput) {
+    public Regex(String codeInput) {
         code = codeInput;
-        dict = dictInput;
+        DeprecatedFuncs depFuncs = new DeprecatedFuncs();
+        dict = depFuncs.dict;
     }
 
     public void find() {
-        //String pattern = "printf\\(\"(.*?)\"\\s*,\\s*(.*?)\\);";
-        String pattern = "printf\\(\"(.*?)\"\\);";
-        Pattern regex = Pattern.compile(pattern);
-        try (BufferedReader reader = new BufferedReader(new StringReader(code))) {
-            String line;
-            int lineNumber = 0;
+        for (String dep : dict.keySet())
+        {
+            String parenthesis = "\\(.*?\\)";
+            String pattern = dep + parenthesis;
+            Pattern regex = Pattern.compile(pattern);
+            try (BufferedReader reader = new BufferedReader(new StringReader(code))) {
+                String line;
+                int lineNumber = 0;
 
-            // Read each line
-            while ((line = reader.readLine()) != null) {
-                lineNumber++;
+                // Read each line
+                while ((line = reader.readLine()) != null) {
+                    lineNumber++;
 
-                if (regex.matcher(line).find()) {
-                    System.out.println("Match found for printf on line " + lineNumber);
+                    if (regex.matcher(line).find()) {
+                        System.out.println("Match found for " + dep + " on line " + lineNumber);
+                        if (dict.get(dep) != "")
+                        {
+                            System.out.println("Suggest with replacing with safer alternative, " + dict.get(dep));
+                        }
+                    }
                 }
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
-
-
