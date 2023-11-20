@@ -13,7 +13,7 @@ public class Tokenizer {
     {
         String token = "";
         for(char c: sourceCode.toCharArray()){
-            if(c == '\n' || c == '\r' || c == ' '){
+            if(c == '\n' || c == '\r' || c == ' ' || c == ','){
                 tokens.add(token);
                 token = "";
             }

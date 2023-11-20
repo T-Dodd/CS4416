@@ -35,7 +35,6 @@ public class Regex {
                         }
                     }
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

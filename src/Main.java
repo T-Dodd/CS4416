@@ -84,8 +84,8 @@ public class Main {
             System.out.println("File contents have been read");
 
             //DEBUGGING For Testing the file reader contents are correct
-            System.out.print(fileContents);
-            System.out.println();
+            //System.out.print(fileContents);
+            //System.out.println();
 
             return fileContents;
         }
