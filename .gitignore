@@ -32,4 +32,7 @@ hs_err_pid*
 # Ignore Gradle build output directory
 build
 
+# Ignore out files
+out/
+
 config.json
