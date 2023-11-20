@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Tokenizer {
     private String source;
     private ArrayList<String> tokens;
-    public Tokenizer(){}
+
     public Tokenizer(String source){}
 
     /*
