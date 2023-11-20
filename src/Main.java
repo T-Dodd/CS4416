@@ -13,8 +13,6 @@ public class Main {
 
     public static void main(String[] args){
 
-        DeprecatedFuncs badFuncs = new DeprecatedFuncs();
-
 
 
         File cwd = new File("src/Main");
@@ -23,7 +21,7 @@ public class Main {
 
         String fileContents = readFile(inputFilePath());
 
-        Regex test = new Regex(fileContents, badFuncs.dict);
+        Regex test = new Regex(fileContents);
 
         test.find();
 
