@@ -29,7 +29,7 @@ public class Regex {
 
                     if (regex.matcher(line).find()) {
                         System.out.println("Match found for " + dep + " on line " + lineNumber);
-                        if (dict.get(dep) != "")
+                        if (!dict.get(dep).isEmpty() && dict.get(dep).length() > 1)
                         {
                             System.out.println("Suggest with replacing with safer alternative, " + dict.get(dep));
                         }
