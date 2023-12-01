@@ -4,16 +4,15 @@ import java.util.HashMap;
 import java.io.BufferedReader;
 
 public class Regex {
-    private String code;
     private HashMap<String,String> dict;
 
-    public Regex(String codeInput) {
-        code = codeInput;
+    public Regex() {
         DeprecatedFuncs depFuncs = new DeprecatedFuncs();
         dict = depFuncs.dict;
     }
 
-    public void find() {
+    public String find(String code) {
+        String errors = "";
         for (String dep : dict.keySet())
         {
             String parenthesis = "\\(.*?\\)";
@@ -28,10 +27,10 @@ public class Regex {
                     lineNumber++;
 
                     if (regex.matcher(line).find()) {
-                        System.out.println("Match found for " + dep + " on line " + lineNumber);
+                        errors += "Match found for " + dep + " on line " + lineNumber + "\n";
                         if (!dict.get(dep).isEmpty() && dict.get(dep).length() > 1)
                         {
-                            System.out.println("Suggest with replacing with safer alternative, " + dict.get(dep));
+                            errors += "Suggest with replacing with safer alternative, " + dict.get(dep) + "\n";
                         }
                     }
                 }
@@ -39,5 +38,6 @@ public class Regex {
                 e.printStackTrace();
             }
         }
+    return errors;
     }
 }

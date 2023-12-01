@@ -3,12 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileReader;
 
 public class gui {
     private static JTextField filePathTextField;
     private static JTextArea validityTextArea;
+    private String programContents;
+    Regex tester;
 
-    public static void main(String args[]) {
+    public gui() {
+        setupGui();
+        tester = new Regex();
+    }
+
+    public void setupGui() {
         JFrame frame = new JFrame("Regex Code Analyzer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 700);
@@ -32,6 +40,8 @@ public class gui {
         execute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String errors = tester.find(programContents);
+                validityTextArea.setText(errors);
             }
         });
 
@@ -58,7 +68,7 @@ public class gui {
         frame.setVisible(true);
     }
 
-    private static void selectFile() {
+    private void selectFile() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(null);
 
@@ -68,10 +78,44 @@ public class gui {
             filePathTextField.setText(selectedFile.getAbsolutePath());
             //check if the file path exists
             if(!isValidFilePath(selectedFile.getAbsolutePath())) validityTextArea.setText("Invalid file path");
+            programContents = readFile(selectedFile);
         }
     }
     public static boolean isValidFilePath(String filePath) {
         File file = new File(filePath);
         return file.exists() && file.isFile();
+    }
+
+
+
+    /*
+    * Reads the contents of a File object and returns a string.
+    * */
+    private static String readFile(File FILE){
+        try{
+            FileReader reader = new FileReader(FILE);
+            String fileContents = "";
+            boolean reading = true;
+            do{
+                int nextChar = reader.read();
+                if(nextChar == -1){ //EOF reached
+                    reading = false;
+                }
+                fileContents += (char)nextChar;
+            }while(reading);
+            System.out.println("File contents have been read");
+
+            //DEBUGGING For Testing the file reader contents are correct
+            //System.out.print(fileContents);
+            //System.out.println();
+
+            reader.close();
+
+            return fileContents;
+        }
+        catch(Exception e){
+            System.out.println("Error reading file contents. Returning empty value");
+            return "";
+        }
     }
 }

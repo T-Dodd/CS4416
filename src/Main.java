@@ -13,17 +13,9 @@ public class Main {
 
     public static void main(String[] args){
 
+        //Regex test = new Regex(fileContents);
 
-
-        File cwd = new File("src/Main");
-        System.out.println("Program file location: " + cwd.getAbsolutePath());
-        System.out.println("Enter the full path of the file that you would like to parse, or press enter for default.");
-
-        String fileContents = readFile(inputFilePath());
-
-        Regex test = new Regex(fileContents);
-
-        test.find();
+        gui Gui = new gui();
 
     }
 
