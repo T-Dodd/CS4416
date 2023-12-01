@@ -40,6 +40,11 @@ public class gui {
         execute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (programContents == null)
+                {
+                    validityTextArea.setText("No file selected");
+                    return;
+                }
                 String errors = tester.find(programContents);
                 validityTextArea.setText(errors);
             }
