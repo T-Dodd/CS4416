@@ -13,9 +13,7 @@ public class Main {
 
     public static void main(String[] args){
 
-        //Regex test = new Regex(fileContents);
-
-        gui Gui = new gui();
+        gui ui = new gui();
 
     }
 
