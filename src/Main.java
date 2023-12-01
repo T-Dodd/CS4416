@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args){
 
-
+        gui ui = new gui();
 
         File cwd = new File("src/Main");
         System.out.println("Program file location: " + cwd.getAbsolutePath());

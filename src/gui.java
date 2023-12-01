@@ -8,7 +8,10 @@ public class gui {
     private static JTextField filePathTextField;
     private static JTextArea validityTextArea;
 
-    public static void main(String args[]) {
+    public gui(){
+        run();
+    }
+    public static void run() {
         JFrame frame = new JFrame("Regex Code Analyzer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 700);
@@ -32,6 +35,7 @@ public class gui {
         execute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
             }
         });
 
@@ -74,4 +78,7 @@ public class gui {
         File file = new File(filePath);
         return file.exists() && file.isFile();
     }
+
+
+
 }
