@@ -59,7 +59,7 @@ public class gui {
             /*Opens up function detection customization window*/
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                showChecklistDialog(frame);
             }
         });
 
@@ -132,6 +132,57 @@ public class gui {
         catch(Exception e){
             System.out.println("Error reading file contents. Returning empty value");
             return "";
+        }
+    }
+
+    /*
+     * This functions gives a check list of all the functions to look for
+     * */
+    private static void showChecklistDialog(JFrame parent) {
+        JFrame checkboxesFrame = new JFrame("Checkboxes");
+        DeprecatedFuncs depFunctions = new DeprecatedFuncs();
+        int size = depFunctions.dict.size();
+        Object[] keysArray = depFunctions.dict.keySet().toArray();
+
+        checkboxesFrame.setLayout(new GridLayout(size / 4, 4));
+        JCheckBox[] checkboxes = new JCheckBox[size];
+
+        for (int i = 0; i < size; i++) {
+            checkboxes[i] = new JCheckBox(keysArray[i].toString());
+            checkboxesFrame.add(checkboxes[i]);
+        }
+
+        toggleAllCheckboxes(checkboxes);
+        JButton toggleButton = new JButton("Toggle All");
+        toggleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleAllCheckboxes(checkboxes);
+            }
+        });
+
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearAllCheckboxes(checkboxes);
+            }
+        });
+
+        checkboxesFrame.add(toggleButton);
+        checkboxesFrame.add(clearButton);
+        checkboxesFrame.pack();
+        checkboxesFrame.setLocationRelativeTo(parent);
+        checkboxesFrame.setVisible(true);
+    }
+    private static void toggleAllCheckboxes(JCheckBox[] checkBoxes) {
+        for(int i = 0; i < checkBoxes.length;i++) {
+            checkBoxes[i].setSelected(true);
+        }
+    }
+    private static void clearAllCheckboxes(JCheckBox[] checkBoxes) {
+        for(int i = 0; i < checkBoxes.length;i++) {
+            checkBoxes[i].setSelected(false);
         }
     }
 
