@@ -3,12 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileReader;
 
 public class gui {
     private static JTextField filePathTextField;
     private static JTextArea validityTextArea;
+    private File selectedFile;
+    Regex tester;
 
-    public static void main(String args[]) {
+    public gui() {
+        setupGui();
+        tester = new Regex();
+    }
+
+    public void setupGui() {
         JFrame frame = new JFrame("Regex Code Analyzer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 700);
@@ -33,6 +41,14 @@ public class gui {
         execute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (selectedFile == null)
+                {
+                    validityTextArea.setText("No file selected");
+                    return;
+                }
+                String programContents = readFile(selectedFile);
+                String errors = tester.find(programContents);
+                validityTextArea.setText(errors);
             }
         });
 
@@ -68,13 +84,13 @@ public class gui {
         frame.setVisible(true);
     }
 
-    private static void selectFile() {
+    private void selectFile() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(null);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             String output = "";
-            File selectedFile = fileChooser.getSelectedFile();
+            selectedFile = fileChooser.getSelectedFile();
             filePathTextField.setText(selectedFile.getAbsolutePath());
             //check if the file path exists
             if(!isValidFilePath(selectedFile.getAbsolutePath())) validityTextArea.setText("Invalid file path");
@@ -85,22 +101,36 @@ public class gui {
         return file.exists() && file.isFile();
     }
 
-    private static void showChecklistDialog(JFrame parent) {
-        JFrame checkboxesFrame = new JFrame("Checkboxes");
-        DeprecatedFuncs depFunctions = new DeprecatedFuncs();
-        int size = depFunctions.dict.size();
-        Object[] keysArray = depFunctions.dict.keySet().toArray();
 
-        checkboxesFrame.setLayout(new GridLayout(size / 4, 4));
-        JCheckBox[] checkboxes = new JCheckBox[size];
 
-        for (int i = 0; i < size; i++) {
-            checkboxes[i] = new JCheckBox(keysArray[i].toString());
-            checkboxesFrame.add(checkboxes[i]);
+    /*
+    * Reads the contents of a File object and returns a string.
+    * */
+    private static String readFile(File FILE){
+        try{
+            FileReader reader = new FileReader(FILE);
+            String fileContents = "";
+            boolean reading = true;
+            do{
+                int nextChar = reader.read();
+                if(nextChar == -1){ //EOF reached
+                    reading = false;
+                }
+                fileContents += (char)nextChar;
+            }while(reading);
+            System.out.println("File contents have been read");
+
+            //DEBUGGING For Testing the file reader contents are correct
+            //System.out.print(fileContents);
+            //System.out.println();
+
+            reader.close();
+
+            return fileContents;
         }
-
-        checkboxesFrame.pack();
-        checkboxesFrame.setLocationRelativeTo(parent);
-        checkboxesFrame.setVisible(true);
+        catch(Exception e){
+            System.out.println("Error reading file contents. Returning empty value");
+            return "";
+        }
     }
 }
