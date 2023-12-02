@@ -101,8 +101,6 @@ public class gui {
         return file.exists() && file.isFile();
     }
 
-
-
     /*
     * Reads the contents of a File object and returns a string.
     * */
@@ -132,5 +130,26 @@ public class gui {
             System.out.println("Error reading file contents. Returning empty value");
             return "";
         }
+    }
+    /*
+    * This functions gives a check list of all the functions to look for
+    * */
+    private static void showChecklistDialog(JFrame parent) {
+        JFrame checkboxesFrame = new JFrame("Checkboxes");
+        DeprecatedFuncs depFunctions = new DeprecatedFuncs();
+        int size = depFunctions.dict.size();
+        Object[] keysArray = depFunctions.dict.keySet().toArray();
+
+        checkboxesFrame.setLayout(new GridLayout(size / 4, 4));
+        JCheckBox[] checkboxes = new JCheckBox[size];
+
+        for (int i = 0; i < size; i++) {
+            checkboxes[i] = new JCheckBox(keysArray[i].toString());
+            checkboxesFrame.add(checkboxes[i]);
+        }
+
+        checkboxesFrame.pack();
+        checkboxesFrame.setLocationRelativeTo(parent);
+        checkboxesFrame.setVisible(true);
     }
 }
