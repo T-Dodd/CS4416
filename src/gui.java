@@ -8,7 +8,7 @@ import java.io.FileReader;
 public class gui {
     private static JTextField filePathTextField;
     private static JTextArea validityTextArea;
-    private String programContents;
+    private File selectedFile;
     Regex tester;
 
     public gui() {
@@ -40,11 +40,12 @@ public class gui {
         execute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (programContents == null)
+                if (selectedFile == null)
                 {
                     validityTextArea.setText("No file selected");
                     return;
                 }
+                String programContents = readFile(selectedFile);
                 String errors = tester.find(programContents);
                 validityTextArea.setText(errors);
             }
@@ -79,11 +80,10 @@ public class gui {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             String output = "";
-            File selectedFile = fileChooser.getSelectedFile();
+            selectedFile = fileChooser.getSelectedFile();
             filePathTextField.setText(selectedFile.getAbsolutePath());
             //check if the file path exists
             if(!isValidFilePath(selectedFile.getAbsolutePath())) validityTextArea.setText("Invalid file path");
-            programContents = readFile(selectedFile);
         }
     }
     public static boolean isValidFilePath(String filePath) {
