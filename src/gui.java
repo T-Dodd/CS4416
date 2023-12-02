@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class gui {
     private static JTextField filePathTextField;
@@ -148,8 +150,37 @@ public class gui {
             checkboxesFrame.add(checkboxes[i]);
         }
 
+        toggleAllCheckboxes(checkboxes);
+        JButton toggleButton = new JButton("Toggle All");
+        toggleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleAllCheckboxes(checkboxes);
+            }
+        });
+
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearAllCheckboxes(checkboxes);
+            }
+        });
+
+        checkboxesFrame.add(toggleButton);
+        checkboxesFrame.add(clearButton);
         checkboxesFrame.pack();
         checkboxesFrame.setLocationRelativeTo(parent);
         checkboxesFrame.setVisible(true);
+    }
+    private static void toggleAllCheckboxes(JCheckBox[] checkBoxes) {
+        for(int i = 0; i < checkBoxes.length;i++) {
+            checkBoxes[i].setSelected(true);
+        }
+    }
+    private static void clearAllCheckboxes(JCheckBox[] checkBoxes) {
+        for(int i = 0; i < checkBoxes.length;i++) {
+            checkBoxes[i].setSelected(false);
+        }
     }
 }
