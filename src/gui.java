@@ -26,6 +26,7 @@ public class gui {
 
         JButton execute = new JButton("Execute");
         JButton selectFileButton = new JButton("Select File");
+        JButton modifyFuncs = new JButton("Edit Functions");
         filePathTextField = new JTextField(30);
         validityTextArea = new JTextArea();
         validityTextArea.setEditable(false);
@@ -45,12 +46,22 @@ public class gui {
             }
         });
 
+        modifyFuncs.addActionListener(new ActionListener() {
+
+            /*Opens up function detection customization window*/
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         // Create a panel for the top section with FlowLayout and empty border
         JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.add(modifyFuncs);
         topPanel.add(execute);
         topPanel.add(selectFileButton);
         topPanel.add(filePathTextField);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adjust margins
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // Adjust margins
 
         // Set the background color of the validity text area to white
         validityTextArea.setBackground(Color.WHITE);
@@ -118,4 +129,10 @@ public class gui {
             return "";
         }
     }
+
+    /*Add a function to the deprecated functions dictionary*/
+    private void addFunc(String input){}
+
+    /*Removes a function from the deprecated functions dictionary*/
+    private void removeFunc(String input){}
 }
