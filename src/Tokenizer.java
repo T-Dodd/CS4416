@@ -9,11 +9,11 @@ public class Tokenizer {
     /*
      * Takes the contents of a source file as a string and tokenizes the contents
      * */
-    private ArrayList<String> tokenize(String sourceCode)
+    private ArrayList<String> tokenize(String source)
     {
         String token = "";
-        for(char c: sourceCode.toCharArray()){
-            if(c == '\n' || c == '\r' || c == ' ' || c == ','){
+        for(char c: source.toCharArray()){
+            if(c == '\n' || c == '\r' || c == ' ' || c == ',' || c =='\0'){
                 tokens.add(token);
                 token = "";
             }

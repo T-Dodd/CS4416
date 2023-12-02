@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.regex.*;
 import java.util.HashMap;
 import java.io.BufferedReader;
+import java.util.ArrayList;
 
 public class Regex {
     private HashMap<String,String> dict;
@@ -39,5 +40,21 @@ public class Regex {
             }
         }
     return errors;
+    }
+
+    public void addFunc(ArrayList<String> function)
+    {
+        String func = function.remove(0);
+        String alternatives = "";
+        while(!function.isEmpty())
+        {
+            alternatives += function.remove(0) + " ";
+        }
+        dict.put(func, alternatives);
+    }
+    
+    public void removeFunc(String function)
+    {
+        dict.remove(function);
     }
 }

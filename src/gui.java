@@ -28,8 +28,8 @@ public class gui {
 
         JButton execute = new JButton("Execute");
         JButton selectFileButton = new JButton("Select File");
-        JButton checklistButton = new JButton("Functions");
-        filePathTextField = new JTextField(25);
+        JButton modifyFuncs = new JButton("Edit Functions");
+        filePathTextField = new JTextField(30);
         validityTextArea = new JTextArea();
         validityTextArea.setEditable(false);
 
@@ -54,21 +54,22 @@ public class gui {
             }
         });
 
-        checklistButton.addActionListener(new ActionListener() {
+        modifyFuncs.addActionListener(new ActionListener() {
+
+            /*Opens up function detection customization window*/
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open checklist dialog when "Open Checklist" button is clicked
-                showChecklistDialog(frame);
+
             }
         });
 
         // Create a panel for the top section with FlowLayout and empty border
         JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.add(modifyFuncs);
         topPanel.add(execute);
         topPanel.add(selectFileButton);
         topPanel.add(filePathTextField);
-        topPanel.add(checklistButton);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adjust margins
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // Adjust margins
 
         // Set the background color of the validity text area to white
         validityTextArea.setBackground(Color.WHITE);
@@ -133,54 +134,10 @@ public class gui {
             return "";
         }
     }
-    /*
-    * This functions gives a check list of all the functions to look for
-    * */
-    private static void showChecklistDialog(JFrame parent) {
-        JFrame checkboxesFrame = new JFrame("Checkboxes");
-        DeprecatedFuncs depFunctions = new DeprecatedFuncs();
-        int size = depFunctions.dict.size();
-        Object[] keysArray = depFunctions.dict.keySet().toArray();
 
-        checkboxesFrame.setLayout(new GridLayout(size / 4, 4));
-        JCheckBox[] checkboxes = new JCheckBox[size];
+    /*Add a function to the deprecated functions dictionary*/
+    private void addFunc(String input){}
 
-        for (int i = 0; i < size; i++) {
-            checkboxes[i] = new JCheckBox(keysArray[i].toString());
-            checkboxesFrame.add(checkboxes[i]);
-        }
-
-        toggleAllCheckboxes(checkboxes);
-        JButton toggleButton = new JButton("Toggle All");
-        toggleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleAllCheckboxes(checkboxes);
-            }
-        });
-
-        JButton clearButton = new JButton("Clear");
-        clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                clearAllCheckboxes(checkboxes);
-            }
-        });
-
-        checkboxesFrame.add(toggleButton);
-        checkboxesFrame.add(clearButton);
-        checkboxesFrame.pack();
-        checkboxesFrame.setLocationRelativeTo(parent);
-        checkboxesFrame.setVisible(true);
-    }
-    private static void toggleAllCheckboxes(JCheckBox[] checkBoxes) {
-        for(int i = 0; i < checkBoxes.length;i++) {
-            checkBoxes[i].setSelected(true);
-        }
-    }
-    private static void clearAllCheckboxes(JCheckBox[] checkBoxes) {
-        for(int i = 0; i < checkBoxes.length;i++) {
-            checkBoxes[i].setSelected(false);
-        }
-    }
+    /*Removes a function from the deprecated functions dictionary*/
+    private void removeFunc(String input){}
 }
