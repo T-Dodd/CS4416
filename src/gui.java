@@ -6,20 +6,40 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+
+
 
 public class gui {
+    private static boolean isFunctionsDialogOpen = false;
     private static JTextField filePathTextField;
     private static JTextArea validityTextArea;
     private File selectedFile;
     Regex tester;
 
     public gui() {
+        try {
+            // Set the look and feel
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
         setupGui();
         tester = new Regex();
     }
 
     public void setupGui() {
         JFrame frame = new JFrame("Regex Code Analyzer");
+
+        setFileLogo(frame);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 700);
 
@@ -36,15 +56,14 @@ public class gui {
         selectFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                selectFile();
+                selectFile(frame);
             }
         });
 
         execute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selectedFile == null)
-                {
+                if (selectedFile == null) {
                     validityTextArea.setText("No file selected");
                     return;
                 }
@@ -87,38 +106,40 @@ public class gui {
         frame.setVisible(true);
     }
 
-    private void selectFile() {
+
+    private void selectFile(JFrame frame) {
         JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(null);
+        int result = fileChooser.showOpenDialog(frame);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             String output = "";
             selectedFile = fileChooser.getSelectedFile();
             filePathTextField.setText(selectedFile.getAbsolutePath());
             //check if the file path exists
-            if(!isValidFilePath(selectedFile.getAbsolutePath())) validityTextArea.setText("Invalid file path");
+            if (!isValidFilePath(selectedFile.getAbsolutePath())) validityTextArea.setText("Invalid file path");
         }
     }
+
     public static boolean isValidFilePath(String filePath) {
         File file = new File(filePath);
         return file.exists() && file.isFile();
     }
 
     /*
-    * Reads the contents of a File object and returns a string.
-    * */
-    private static String readFile(File FILE){
-        try{
+     * Reads the contents of a File object and returns a string.
+     * */
+    private static String readFile(File FILE) {
+        try {
             FileReader reader = new FileReader(FILE);
             String fileContents = "";
             boolean reading = true;
-            do{
+            do {
                 int nextChar = reader.read();
-                if(nextChar == -1){ //EOF reached
+                if (nextChar == -1) { //EOF reached
                     reading = false;
                 }
-                fileContents += (char)nextChar;
-            }while(reading);
+                fileContents += (char) nextChar;
+            } while (reading);
             System.out.println("File contents have been read");
 
             //DEBUGGING For Testing the file reader contents are correct
@@ -128,8 +149,7 @@ public class gui {
             reader.close();
 
             return fileContents;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error reading file contents. Returning empty value");
             return "";
         }
@@ -139,7 +159,14 @@ public class gui {
      * This functions gives a check list of all the functions to look for
      * */
     private static void showChecklistDialog(JFrame parent) {
-        JFrame checkboxesFrame = new JFrame("Checkboxes");
+
+        if (isFunctionsDialogOpen) {
+            return;
+        }
+
+        JFrame checkboxesFrame = new JFrame("Functions");
+        setFileLogo(checkboxesFrame);
+
         DeprecatedFuncs depFunctions = new DeprecatedFuncs();
         int size = depFunctions.dict.size();
         Object[] keysArray = depFunctions.dict.keySet().toArray();
@@ -174,14 +201,26 @@ public class gui {
         checkboxesFrame.pack();
         checkboxesFrame.setLocationRelativeTo(parent);
         checkboxesFrame.setVisible(true);
+
+        isFunctionsDialogOpen = true;
+
+        // Add a WindowListener to reset the flag when the dialog is closed
+        checkboxesFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                isFunctionsDialogOpen = false;
+            }
+        });
     }
+
     private static void toggleAllCheckboxes(JCheckBox[] checkBoxes) {
-        for(int i = 0; i < checkBoxes.length;i++) {
+        for (int i = 0; i < checkBoxes.length; i++) {
             checkBoxes[i].setSelected(true);
         }
     }
+
     private static void clearAllCheckboxes(JCheckBox[] checkBoxes) {
-        for(int i = 0; i < checkBoxes.length;i++) {
+        for (int i = 0; i < checkBoxes.length; i++) {
             checkBoxes[i].setSelected(false);
         }
     }
@@ -190,8 +229,20 @@ public class gui {
     private void checkCheckBoxes(){}
 
     /*Add a function to the deprecated functions dictionary*/
-    private void addFunc(String input){}
+    private void addFunc(String input) {
+    }
 
     /*Removes a function from the deprecated functions dictionary*/
-    private void removeFunc(String input){}
+    private void removeFunc(String input) {
+    }
+
+    private static void setFileLogo(JFrame frame) {
+        try {
+            BufferedImage logoImage = ImageIO.read(gui.class.getResource("/resources/logo.png"));
+            frame.setIconImage(logoImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
