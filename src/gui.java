@@ -186,6 +186,9 @@ public class gui {
         }
     }
 
+
+    private void checkCheckBoxes(){}
+
     /*Add a function to the deprecated functions dictionary*/
     private void addFunc(String input){}
 
