@@ -235,7 +235,7 @@ public class gui {
 
     private static void setFileLogo(JFrame frame) {
         try {
-            BufferedImage logoImage = ImageIO.read(gui.class.getResource("logo.png"));
+            BufferedImage logoImage = ImageIO.read(gui.class.getResource("/resources/logo.png"));
             frame.setIconImage(logoImage);
         } catch (IOException e) {
             e.printStackTrace();
