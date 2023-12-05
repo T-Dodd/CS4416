@@ -49,7 +49,7 @@ public class gui {
         // Use BorderLayout for the frame
         frame.setLayout(new BorderLayout());
 
-        JButton execute = new JButton("Execute");
+        JButton execute = new JButton("Scan");
         JButton selectFileButton = new JButton("Select File");
         JButton modifyFuncs = new JButton("Edit Functions");
         filePathTextField = new JTextField(30);
