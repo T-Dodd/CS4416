@@ -170,6 +170,7 @@ public class gui {
         DeprecatedFuncs depFunctions = new DeprecatedFuncs();
         int size = depFunctions.dict.size();
         Object[] keysArray = depFunctions.dict.keySet().toArray();
+        Arrays.sort(keysArray);
 
         checkboxesFrame.setLayout(new GridLayout(size / 4, 4));
         JCheckBox[] checkboxes = new JCheckBox[size];
