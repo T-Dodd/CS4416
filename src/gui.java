@@ -154,31 +154,27 @@ public class gui {
      * This functions gives a checklist of all the functions to look for
      * */
     private static void showChecklistDialog(JFrame parent) {
-
         if (isFunctionsDialogOpen) {
             return;
         }
 
         JFrame checkboxesFrame = new JFrame("Functions");
         setFileLogo(checkboxesFrame);
+        checkboxesFrame.setSize(400, 550);
 
-        // top panel setup
+        // Top panel setup
         JPanel topPanel = new JPanel(new FlowLayout());
-        JTextField funcInput = new JTextField("Enter Bad Func", 30);
-        JTextField alternativeInput = new JTextField("Enter Preferred Alternative", 30);
+        JTextField funcInput = new JTextField("Enter Bad Func", 20);
+        JTextField alternativeInput = new JTextField("Enter Preferred Alternative", 20);
         JButton addButton = new JButton("Add Function");
         topPanel.add(funcInput);
         topPanel.add(alternativeInput);
         topPanel.add(addButton);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10,10,20,10));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(15, 10, 20, 10));
 
-        // add top panel to frame
-        checkboxesFrame.add(topPanel, BorderLayout.NORTH);
-
-        // center panel setup
+        // Center panel setup
         JPanel centerPanel = new JPanel();
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         int size = tester.getDict().size();
         Object[] keysArray = tester.getDict().keySet().toArray();
@@ -197,28 +193,20 @@ public class gui {
             }
         }
 
-        // toggle button setup
+        // Toggle button setup
         JButton toggleButton = new JButton("Toggle All");
-        toggleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleAllCheckboxes(checkboxes);
-            }
-        });
+        toggleButton.addActionListener(e -> toggleAllCheckboxes(checkboxes));
 
-        // clear button setup
+        // Clear button setup
         JButton clearButton = new JButton("Clear");
-        clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                clearAllCheckboxes(checkboxes);
-            }
-        });
+        clearButton.addActionListener(e -> clearAllCheckboxes(checkboxes));
 
-        // adding components to the frame
-        checkboxesFrame.add(toggleButton);
-        checkboxesFrame.add(clearButton);
-        checkboxesFrame.pack();
+        // Adding components to the frame
+        checkboxesFrame.add(topPanel, BorderLayout.NORTH);
+        checkboxesFrame.add(centerPanel, BorderLayout.CENTER);
+        checkboxesFrame.add(toggleButton, BorderLayout.SOUTH);
+        checkboxesFrame.add(clearButton, BorderLayout.SOUTH);
+
         checkboxesFrame.setLocationRelativeTo(parent);
         checkboxesFrame.setVisible(true);
 
@@ -230,10 +218,10 @@ public class gui {
             public void windowClosing(WindowEvent e) {
                 trackUncheckedBoxes(checkboxes);
                 isFunctionsDialogOpen = false;
-
             }
         });
     }
+
 
     private static void toggleAllCheckboxes(JCheckBox[] checkBoxes) {
         for (int i = 0; i < checkBoxes.length; i++) {
