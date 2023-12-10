@@ -283,3 +283,6 @@ save(Dictionary **dictPtr)
   }
   fclose(file);
 }
+
+void
+badFunc(){}
