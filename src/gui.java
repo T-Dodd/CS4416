@@ -228,6 +228,9 @@ public class gui {
             public void windowClosing(WindowEvent e) {
                 trackUncheckedBoxes(checkboxes);
                 isFunctionsDialogOpen = false;
+                for (String func: uncheckedBoxes) {
+                    removeFunction(func);
+                }
             }
         });
     }
