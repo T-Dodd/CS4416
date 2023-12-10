@@ -14,3 +14,6 @@ The program is run through the Main.java class in the src folder "src/Main.Java"
 * https://github.com/git/git/blob/master/banned.h
 * https://stackoverflow.com/a/2565736
 * https://github.com/x509cert/banned/blob/master/banned.h
+
+# JAVA EDITIONS USED
+* openjdk 11.0.16.1 LTS
