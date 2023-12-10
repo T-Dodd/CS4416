@@ -167,6 +167,15 @@ public class gui {
         JTextField funcInput = new JTextField("Enter Bad Func", 30);
         JTextField alternativeInput = new JTextField("Enter Preferred Alternative", 30);
         JButton addButton = new JButton("Add Function");
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String func = funcInput.getText();
+                String alternative = alternativeInput.getText();
+                addFunction(func, alternative);
+            }
+        });
+
         topPanel.add(funcInput);
         topPanel.add(alternativeInput);
         topPanel.add(addButton);
@@ -179,23 +188,23 @@ public class gui {
         JPanel centerPanel = new JPanel();
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-
         int size = tester.getDict().size();
         Object[] keysArray = tester.getDict().keySet().toArray();
         Arrays.sort(keysArray);
 
-        centerPanel.setLayout(new GridLayout(size / 4, 4));
+        checkboxesFrame.setLayout(new GridLayout(size / 2, 10));
         JCheckBox[] checkboxes = new JCheckBox[size];
 
         for (int i = 0; i < size; i++) {
             checkboxes[i] = new JCheckBox(keysArray[i].toString());
-            centerPanel.add(checkboxes[i]);
+            checkboxesFrame.add(checkboxes[i]);
             if (uncheckedBoxes.contains(checkboxes[i].getText())) {
                 checkboxes[i].setSelected(false);
             } else {
                 checkboxes[i].setSelected(true);
             }
         }
+        checkboxesFrame.add(centerPanel);
 
         // toggle button setup
         JButton toggleButton = new JButton("Toggle All");
@@ -230,7 +239,9 @@ public class gui {
             public void windowClosing(WindowEvent e) {
                 trackUncheckedBoxes(checkboxes);
                 isFunctionsDialogOpen = false;
-
+                for (String func: uncheckedBoxes) {
+                    removeFunction(func);
+                }
             }
         });
     }
@@ -246,9 +257,6 @@ public class gui {
             checkBoxes[i].setSelected(false);
         }
     }
-
-    private static void saveFunctions(){}
-    private void checkCheckBoxes(){}
 
     private static void setFileLogo(JFrame frame) {
         try {
@@ -266,13 +274,13 @@ public class gui {
         }
     }
 
-    private void addFunction(String badFunc, String alternative){
+    private static void addFunction(String badFunc, String alternative){
         if (!tester.getDict().containsKey(badFunc)) {
              tester.addFunc(badFunc, alternative);
         }
     }
 
-    public void removeFunction(String badFunc){
+    public static void removeFunction(String badFunc){
         if (tester.getDict().containsKey(badFunc)) {
             tester.removeFunc(badFunc);
         }
