@@ -4,22 +4,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 
 public class gui {
     private static boolean isFunctionsDialogOpen;
     private static JTextField filePathTextField;
     private static JTextArea validityTextArea;
     private File selectedFile;
-    Regex tester;
+    private static Regex tester;
     public static List<String> uncheckedBoxes = new ArrayList<>();
 
     public gui() {
@@ -120,6 +118,7 @@ public class gui {
         }
     }
 
+
     public static boolean isValidFilePath(String filePath) {
         File file = new File(filePath);
         return file.exists() && file.isFile();
@@ -142,10 +141,6 @@ public class gui {
             } while (reading);
             System.out.println("File contents have been read");
 
-            //DEBUGGING For Testing the file reader contents are correct
-            //System.out.print(fileContents);
-            //System.out.println();
-
             reader.close();
 
             return fileContents;
@@ -156,7 +151,7 @@ public class gui {
     }
 
     /*
-     * This functions gives a check list of all the functions to look for
+     * This functions gives a checklist of all the functions to look for
      * */
     private static void showChecklistDialog(JFrame parent) {
 
@@ -167,17 +162,34 @@ public class gui {
         JFrame checkboxesFrame = new JFrame("Functions");
         setFileLogo(checkboxesFrame);
 
-        DeprecatedFuncs depFunctions = new DeprecatedFuncs();
-        int size = depFunctions.dict.size();
-        Object[] keysArray = depFunctions.dict.keySet().toArray();
+        // top panel setup
+        JPanel topPanel = new JPanel(new FlowLayout());
+        JTextField funcInput = new JTextField("Enter Bad Func", 30);
+        JTextField alternativeInput = new JTextField("Enter Preferred Alternative", 30);
+        JButton addButton = new JButton("Add Function");
+        topPanel.add(funcInput);
+        topPanel.add(alternativeInput);
+        topPanel.add(addButton);
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10,10,20,10));
+
+        // add top panel to frame
+        checkboxesFrame.add(topPanel, BorderLayout.NORTH);
+
+        // center panel setup
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+
+        int size = tester.getDict().size();
+        Object[] keysArray = tester.getDict().keySet().toArray();
         Arrays.sort(keysArray);
 
-        checkboxesFrame.setLayout(new GridLayout(size / 4, 4));
+        centerPanel.setLayout(new GridLayout(size / 4, 4));
         JCheckBox[] checkboxes = new JCheckBox[size];
 
         for (int i = 0; i < size; i++) {
             checkboxes[i] = new JCheckBox(keysArray[i].toString());
-            checkboxesFrame.add(checkboxes[i]);
+            centerPanel.add(checkboxes[i]);
             if (uncheckedBoxes.contains(checkboxes[i].getText())) {
                 checkboxes[i].setSelected(false);
             } else {
@@ -185,6 +197,7 @@ public class gui {
             }
         }
 
+        // toggle button setup
         JButton toggleButton = new JButton("Toggle All");
         toggleButton.addActionListener(new ActionListener() {
             @Override
@@ -193,6 +206,7 @@ public class gui {
             }
         });
 
+        // clear button setup
         JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -201,14 +215,7 @@ public class gui {
             }
         });
 
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveFunctions();
-            }
-        });
-
+        // adding components to the frame
         checkboxesFrame.add(toggleButton);
         checkboxesFrame.add(clearButton);
         checkboxesFrame.pack();
@@ -223,6 +230,7 @@ public class gui {
             public void windowClosing(WindowEvent e) {
                 trackUncheckedBoxes(checkboxes);
                 isFunctionsDialogOpen = false;
+
             }
         });
     }
@@ -239,17 +247,8 @@ public class gui {
         }
     }
 
-
     private static void saveFunctions(){}
     private void checkCheckBoxes(){}
-
-    /*Add a function to the deprecated functions dictionary*/
-    private void addFunc(String input) {
-    }
-
-    /*Removes a function from the deprecated functions dictionary*/
-    private void removeFunc(String input) {
-    }
 
     private static void setFileLogo(JFrame frame) {
         try {
@@ -264,6 +263,18 @@ public class gui {
         uncheckedBoxes.clear();
         for (int i = 0; i < checkBoxes.length; i++) {
             if(!checkBoxes[i].isSelected()) uncheckedBoxes.add(checkBoxes[i].getText());
+        }
+    }
+
+    private void addFunction(String badFunc, String alternative){
+        if (!tester.getDict().containsKey(badFunc)) {
+             tester.addFunc(badFunc, alternative);
+        }
+    }
+
+    public void removeFunction(String badFunc){
+        if (tester.getDict().containsKey(badFunc)) {
+            tester.removeFunc(badFunc);
         }
     }
 

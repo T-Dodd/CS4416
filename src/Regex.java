@@ -44,19 +44,23 @@ public class Regex {
     return errors;
     }
 
-    public void addFunc(ArrayList<String> function)
+    public void addFunc(String func, String alternatives)
     {
-        String func = function.remove(0);
-        String alternatives = "";
-        while(!function.isEmpty())
-        {
-            alternatives += function.remove(0) + " ";
-        }
         dict.put(func, alternatives);
+    }
+
+    public void addFunc(String func)
+    {
+        dict.put(func, "");
     }
     
     public void removeFunc(String function)
     {
         dict.remove(function);
     }
+
+    public HashMap<String, String> getDict() {
+        return dict;
+    }
+
 }
