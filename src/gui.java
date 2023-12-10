@@ -160,7 +160,7 @@ public class gui {
 
         JFrame checkboxesFrame = new JFrame("Functions");
         setFileLogo(checkboxesFrame);
-        checkboxesFrame.setSize(400, 550);
+        checkboxesFrame.setSize(450, 550);
 
         // Top panel setup
         JPanel topPanel = new JPanel(new FlowLayout());
@@ -189,12 +189,12 @@ public class gui {
         Object[] keysArray = tester.getDict().keySet().toArray();
         Arrays.sort(keysArray);
 
-        centerPanel.setLayout(new GridLayout(size / 4, 4));
+        centerPanel.setLayout(new GridLayout(size / 4, 3));
         JCheckBox[] checkboxes = new JCheckBox[size];
 
         for (int i = 0; i < size; i++) {
             checkboxes[i] = new JCheckBox(keysArray[i].toString());
-            checkboxesFrame.add(checkboxes[i]);
+            centerPanel.add(checkboxes[i]);
             if (uncheckedBoxes.contains(checkboxes[i].getText())) {
                 checkboxes[i].setSelected(false);
             } else {
@@ -213,7 +213,7 @@ public class gui {
 
         // Adding components to the frame
         checkboxesFrame.add(topPanel, BorderLayout.NORTH);
-        checkboxesFrame.add(centerPanel, BorderLayout.CENTER);
+        //checkboxesFrame.add(centerPanel, BorderLayout.CENTER);
         checkboxesFrame.add(toggleButton, BorderLayout.SOUTH);
         checkboxesFrame.add(clearButton, BorderLayout.SOUTH);
 
