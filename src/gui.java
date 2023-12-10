@@ -180,7 +180,7 @@ public class gui {
         Object[] keysArray = tester.getDict().keySet().toArray();
         Arrays.sort(keysArray);
 
-        centerPanel.setLayout(new GridLayout(size / 4, 4));
+        centerPanel.setLayout(new GridLayout(size / 4, 3));
         JCheckBox[] checkboxes = new JCheckBox[size];
 
         for (int i = 0; i < size; i++) {
