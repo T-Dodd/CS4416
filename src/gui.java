@@ -14,9 +14,6 @@ import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class gui {
     private static boolean isFunctionsDialogOpen;
     private static JTextField filePathTextField;
@@ -204,6 +201,14 @@ public class gui {
             }
         });
 
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveFunctions();
+            }
+        });
+
         checkboxesFrame.add(toggleButton);
         checkboxesFrame.add(clearButton);
         checkboxesFrame.pack();
@@ -235,6 +240,7 @@ public class gui {
     }
 
 
+    private static void saveFunctions(){}
     private void checkCheckBoxes(){}
 
     /*Add a function to the deprecated functions dictionary*/
