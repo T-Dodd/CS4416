@@ -11,16 +11,19 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 public class gui {
-    private static boolean isFunctionsDialogOpen = false;
+    private static boolean isFunctionsDialogOpen;
     private static JTextField filePathTextField;
     private static JTextArea validityTextArea;
     private File selectedFile;
     Regex tester;
+    public static List<String> uncheckedBoxes = new ArrayList<>();
 
     public gui() {
         try {
@@ -46,7 +49,7 @@ public class gui {
         // Use BorderLayout for the frame
         frame.setLayout(new BorderLayout());
 
-        JButton execute = new JButton("Execute");
+        JButton execute = new JButton("Scan");
         JButton selectFileButton = new JButton("Select File");
         JButton modifyFuncs = new JButton("Edit Functions");
         filePathTextField = new JTextField(30);
@@ -68,7 +71,7 @@ public class gui {
                     return;
                 }
                 String programContents = readFile(selectedFile);
-                String errors = tester.find(programContents);
+                String errors = tester.find(programContents, uncheckedBoxes);
                 validityTextArea.setText(errors);
             }
         });
@@ -178,9 +181,13 @@ public class gui {
         for (int i = 0; i < size; i++) {
             checkboxes[i] = new JCheckBox(keysArray[i].toString());
             checkboxesFrame.add(checkboxes[i]);
+            if (uncheckedBoxes.contains(checkboxes[i].getText())) {
+                checkboxes[i].setSelected(false);
+            } else {
+                checkboxes[i].setSelected(true);
+            }
         }
 
-        toggleAllCheckboxes(checkboxes);
         JButton toggleButton = new JButton("Toggle All");
         toggleButton.addActionListener(new ActionListener() {
             @Override
@@ -208,7 +215,8 @@ public class gui {
         // Add a WindowListener to reset the flag when the dialog is closed
         checkboxesFrame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
+                trackUncheckedBoxes(checkboxes);
                 isFunctionsDialogOpen = false;
             }
         });
@@ -243,6 +251,13 @@ public class gui {
             frame.setIconImage(logoImage);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void trackUncheckedBoxes(JCheckBox[] checkBoxes) {
+        uncheckedBoxes.clear();
+        for (int i = 0; i < checkBoxes.length; i++) {
+            if(!checkBoxes[i].isSelected()) uncheckedBoxes.add(checkBoxes[i].getText());
         }
     }
 
